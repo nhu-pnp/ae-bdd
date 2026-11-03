@@ -1,0 +1,33 @@
+{
+  "name": "ae-bdd",
+  "version": "1.0.0",
+  "description": "Automation Exercise regression tests with Playwright BDD",
+  "main": "index.js",
+  "scripts": {
+    "bddgen": "bddgen",
+    "test": "bddgen && playwright test",
+    "test:headed": "bddgen && playwright test --headed",
+    "test:ui": "bddgen && playwright test --ui",
+    "test:list": "bddgen && playwright test --list",
+    "test:smoke": "cross-env TAGS=@smoke npm test",
+    "test:regression": "cross-env TAGS=@regression npm test",
+    "test:ci": "cross-env CI=true npm test",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "check": "npm run typecheck && prettier --check . && npm run test:list",
+    "report": "playwright show-report reports/html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.19.2",
+    "cross-env": "10.1.0",
+    "dotenv": "17.4.2",
+    "playwright-bdd": "9.2.1",
+    "prettier": "3.9.10",
+    "typescript": "5.9.3"
+  }
+}
