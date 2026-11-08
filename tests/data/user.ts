@@ -1,26 +1,47 @@
-import { randomUUID } from 'node:crypto';
+// User: khung du lieu cua 1 user (chi khai bao cac truong, chua co gia tri)
+export class User {
+  name!: string;
+  email!: string;
+  password!: string;
+  title!: string;
+  birthDay!: string;
+  birthMonth!: string;
+  birthYear!: string;
+  firstName!: string;
+  lastName!: string;
+  company!: string;
+  address1!: string;
+  address2!: string;
+  country!: string;
+  state!: string;
+  city!: string;
+  zipcode!: string;
+  mobileNumber!: string;
+}
 
-export type User = ReturnType<typeof createUser>;
+// createUser: tao 1 user voi gia tri cu the de dung trong test
+export function createUser(): User {
+  // id ngau nhien, giup moi user khong bi trung
+  const id = Date.now();
 
-export function createUser() {
-  const id = randomUUID().slice(0, 8); //adf4534df
-  return {
-    name: `QA ${id}`,
-    email: `qa.${id}.${Date.now()}@example.com`, //qa.123RTG.06112026@example.com
-    password: `Test!${id}`,
-    title: 'Mr.',
-    birthDay: '15',
-    birthMonth: '6',
-    birthYear: '1995',
-    firstName: 'QA',
-    lastName: 'Learner',
-    company: 'Automation Class',
-    address1: '123 Test Street',
-    address2: 'Unit 4',
-    country: 'Canada',
-    state: 'Ontario',
-    city: 'Toronto',
-    zipcode: 'M5V2T6',
-    mobileNumber: '4165550100',
-  };
+  const user = new User();
+  user.name = `QA ${id}`;
+  user.email = `qa${id}@example.com`;
+  user.password = `Test!${id}`;
+  user.title = 'Mr.';
+  user.birthDay = '15';
+  user.birthMonth = '6';
+  user.birthYear = '1995';
+  user.firstName = 'QA';
+  user.lastName = 'Learner';
+  user.company = 'Automation Class';
+  user.address1 = '123 Test Street';
+  user.address2 = 'Unit 4';
+  user.country = 'Canada';
+  user.state = 'Ontario';
+  user.city = 'Toronto';
+  user.zipcode = 'M5V2T6';
+  user.mobileNumber = '4165550100';
+
+  return user;
 }
