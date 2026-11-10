@@ -72,10 +72,14 @@ export class AccountInformationPage {
     await expect(this.heading).toBeVisible();
   }
 
+  async fillPassword(password: string) {
+    await this.password.fill(password);
+  }
+
   // Dien tat ca field dang trong; KHONG dong vao Name va Email (da prefill tu buoc signup)
   async fillDetails(user: User) {
     await (user.title === 'Mrs.' ? this.titleMrs : this.titleMr).check();
-    await this.password.fill(user.password);
+    await this.fillPassword(user.password);
     await this.birthDay.selectOption(user.birthDay);
     await this.birthMonth.selectOption(user.birthMonth);
     await this.birthYear.selectOption(user.birthYear);
