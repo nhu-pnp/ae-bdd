@@ -5,3 +5,9 @@ reports/
 playwright/.auth/
 .env
 .DS_Store
+
+# Azurite (Azure Storage emulator) local data
+__azurite_db_*.json
+
+# Claude Code local settings
+.claude/

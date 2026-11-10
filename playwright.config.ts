@@ -24,9 +24,10 @@ export default defineConfig({
   reporter: [['list'], ['html', { outputFolder: 'reports/html', open: 'never' }]],
   use: {
     baseURL: 'https://automationexercise.com',
+    testIdAttribute: 'data-qa',
     actionTimeout: 15_000,
     navigationTimeout: 30_000,
-    trace: 'retain-on-failure',
+    trace: 'on',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },
