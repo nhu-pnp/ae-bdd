@@ -18,6 +18,11 @@ export class SignupLoginPage {
 
   async open() {
     await this.page.goto('/login');
+    await this.expectOpened();
+  }
+
+  async expectOpened() {
+    await expect(this.page).toHaveURL(/\/login$/);
     await expect(this.signupHeading).toBeVisible();
   }
 
@@ -25,6 +30,12 @@ export class SignupLoginPage {
     await this.signupName.fill(name);
     await this.signupEmail.fill(email);
   }
+
+  async clearSignup() {
+    await this.signupName.fill('');
+    await this.signupEmail.fill('');
+  }
+
   async clickSignup() {
     await this.signupButton.click();
   }

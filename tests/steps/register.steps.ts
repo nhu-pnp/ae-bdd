@@ -112,3 +112,25 @@ Then('newsletter and partner offers are unchecked', async ({ page }) => {
 Then('the selected country is {string}', async ({ page }, country: string) => {
   await expect(new AccountInformationPage(page).country).toHaveValue(country);
 });
+
+// TC-59: bo trong form signup -> trinh duyet chan submit bang validation HTML5 (required),
+// khong tao account nen khong push vao accountsToDelete
+When('user leaves the name and email fields empty in the signup form', async ({ page }) => {
+  await new SignupLoginPage(page).clearSignup();
+});
+
+Then('the signup name field shows the message {string}', async ({ page }, message: string) => {
+  await expect(new SignupLoginPage(page).signupName).toHaveJSProperty('validationMessage', message);
+});
+
+Then('the signup email field is reported as required', async ({ page }) => {
+  const signupEmail = new SignupLoginPage(page).signupEmail;
+  await expect
+    .poll(() => signupEmail.evaluate((el: HTMLInputElement) => el.validity.valueMissing))
+    .toBe(true);
+});
+
+Then('user stays on the signup and login page', async ({ page }) => {
+  await new SignupLoginPage(page).expectOpened();
+  await expect(new AccountInformationPage(page).heading).toBeHidden();
+});
