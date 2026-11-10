@@ -134,3 +134,14 @@ Then('user stays on the signup and login page', async ({ page }) => {
   await new SignupLoginPage(page).expectOpened();
   await expect(new AccountInformationPage(page).heading).toBeHidden();
 });
+
+// TC-62: scenario khong bam Create Account nen khong co account tren server -> khong push vao accountsToDelete
+When('user enters a password', async ({ page }) => {
+  await new AccountInformationPage(page).fillPassword(currentUser().password);
+});
+
+Then('the password is masked', async ({ page }) => {
+  const form = new AccountInformationPage(page);
+  await expect(form.password).toHaveAttribute('type', 'password');
+  await expect(form.password).toHaveValue(currentUser().password);
+});
