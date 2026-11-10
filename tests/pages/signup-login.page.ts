@@ -5,12 +5,15 @@ export class SignupLoginPage {
   readonly signupName: Locator;
   readonly signupEmail: Locator;
   readonly signupButton: Locator;
+  readonly page: Page;
 
-  constructor(private readonly page: Page) {
-    this.signupHeading = page.getByRole('heading', { name: 'New User Signup!' });
-    this.signupName = page.getByPlaceholder('Name');
-    this.signupEmail = page.getByPlaceholder('Email Address');
-    this.signupButton = page.getByRole('button', { name: 'Signup' });
+  constructor(trang: Page) {
+    this.page = trang;
+    this.signupHeading = trang.getByRole('heading', { name: 'New User Signup!' });
+    // getByTestId (data-qa) cho o nhap: tranh trung voi form Login; nut Signup dung getByRole
+    this.signupName = trang.getByTestId('signup-name');
+    this.signupEmail = trang.getByTestId('signup-email');
+    this.signupButton = trang.getByRole('button', { name: 'Signup' });
   }
 
   async open() {

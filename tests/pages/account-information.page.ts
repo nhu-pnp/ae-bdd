@@ -27,27 +27,44 @@ export class AccountInformationPage {
 
   constructor(private readonly page: Page) {
     this.heading = page.getByRole('heading', { name: 'Enter Account Information' });
-    this.titleMr = page.getByRole('radio', { name: 'Mr' });
-    this.titleMrs = page.getByRole('radio', { name: 'Mrs' });
-    this.name = page.getByLabel('Name');
-    this.email = page.getByLabel('Email');
-    this.password = page.getByLabel('Password');
-    this.birthDay = page.getByRole('combobox', { name: 'Day' });
-    this.birthMonth = page.getByRole('combobox', { name: 'Month' });
-    this.birthYear = page.getByRole('combobox', { name: 'Year' });
-    this.newsletter = page.getByRole('checkbox', { name: 'newsletter!' });
-    this.partnerOffers = page.getByRole('checkbox', { name: 'partners' });
-    this.firstName = page.getByLabel('First name');
-    this.lastName = page.getByLabel('Last name');
-    this.company = page.getByLabel('Company');
-    this.address1 = page.getByLabel(/Address/);
-    this.address2 = page.getByLabel(/Address 2/);
-    this.country = page.getByLabel(/Country/);
-    this.state = page.getByLabel('State');
-    this.city = page.getByLabel('City');
-    this.zipcode = page.getByLabel('Zipcode');
-    this.mobileNumber = page.getByLabel('Mobile Number');
+    // Uu tien getByRole / getByLabel; field form va select dung getByTestId (data-qa) de khop dung 1 phan tu (strict mode)
+    this.titleMr = page.getByRole('radio', { name: 'Mr.', exact: true });
+    this.titleMrs = page.getByRole('radio', { name: 'Mrs.', exact: true });
+    this.name = page.getByTestId('name');
+    this.email = page.getByTestId('email');
+    this.password = page.getByTestId('password');
+    this.birthDay = page.getByTestId('days');
+    this.birthMonth = page.getByTestId('months');
+    this.birthYear = page.getByTestId('years');
+    this.newsletter = page.getByLabel('Sign up for our newsletter!');
+    this.partnerOffers = page.getByLabel('Receive special offers from our partners!');
+    this.firstName = page.getByTestId('first_name');
+    this.lastName = page.getByTestId('last_name');
+    this.company = page.getByTestId('company');
+    this.address1 = page.getByTestId('address');
+    this.address2 = page.getByTestId('address2');
+    this.country = page.getByTestId('country');
+    this.state = page.getByTestId('state');
+    this.city = page.getByTestId('city');
+    this.zipcode = page.getByTestId('zipcode');
+    this.mobileNumber = page.getByTestId('mobile_number');
     this.createAccountButton = page.getByRole('button', { name: 'Create Account' });
+  }
+
+  // Password va cac o text dia chi (khong gom Name/Email da prefill)
+  get passwordAndAddressTextFields(): Locator[] {
+    return [
+      this.password,
+      this.firstName,
+      this.lastName,
+      this.company,
+      this.address1,
+      this.address2,
+      this.state,
+      this.city,
+      this.zipcode,
+      this.mobileNumber,
+    ];
   }
 
   async expectOpened() {
@@ -55,18 +72,21 @@ export class AccountInformationPage {
     await expect(this.heading).toBeVisible();
   }
 
+  // Dien tat ca field dang trong; KHONG dong vao Name va Email (da prefill tu buoc signup)
   async fillDetails(user: User) {
-    await this.titleMr.check();
+    await (user.title === 'Mrs.' ? this.titleMrs : this.titleMr).check();
     await this.password.fill(user.password);
     await this.birthDay.selectOption(user.birthDay);
     await this.birthMonth.selectOption(user.birthMonth);
     await this.birthYear.selectOption(user.birthYear);
+    await this.newsletter.check();
+    await this.partnerOffers.check();
     await this.firstName.fill(user.firstName);
     await this.lastName.fill(user.lastName);
     await this.company.fill(user.company);
     await this.address1.fill(user.address1);
     await this.address2.fill(user.address2);
-    await this.country.fill(user.country);
+    await this.country.selectOption(user.country);
     await this.state.fill(user.state);
     await this.city.fill(user.city);
     await this.zipcode.fill(user.zipcode);

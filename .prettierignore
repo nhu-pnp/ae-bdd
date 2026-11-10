@@ -3,3 +3,9 @@ node_modules
 test-results
 reports
 package-lock.json
+
+# Azurite (Azure Storage emulator) local data
+__azurite_db_*.json
+
+# Claude Code local settings
+.claude/

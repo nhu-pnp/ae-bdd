@@ -10,7 +10,7 @@ export class Header {
   constructor(page: Page) {
     const header = page.locator('#header'); //css selector
     this.signupLoginLink = header.getByRole('link', { name: 'Signup / Login' });
-    this.loggedInAs = header.getByText('Loggin in as'); //playwright selector
+    this.loggedInAs = header.getByText('Logged in as'); //playwright selector
     this.loggedInName = this.loggedInAs.locator('b'); //css selector
     this.logoutLink = header.getByRole('link', { name: 'logout' });
     this.deleteAccountLink = header.getByRole('link', { name: 'Delete Account' });
