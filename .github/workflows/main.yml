@@ -1,0 +1,64 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 1 * * *'   # 08:00 giờ VN, chạy full regression mỗi đêm
+  workflow_dispatch:       # cho phép bấm chạy tay trên tab Actions
+    inputs:
+      tags:
+        description: 'Tag cần chạy (vd: @smoke, @regression, để trống = tất cả)'
+        required: false
+        default: '@smoke'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CI: true
+      # PR/push: smoke; lịch đêm: regression; chạy tay: theo input
+      TAGS: ${{ github.event_name == 'schedule' && '@regression' || github.event.inputs.tags || '@smoke' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck + format check
+        run: npm run typecheck && npx prettier --check .
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run tests
+        run: npm test
+
+      - name: Upload HTML report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: reports/html
+          retention-days: 14
+
+      - name: Upload traces/videos on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results
+          retention-days: 7
