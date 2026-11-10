@@ -6,8 +6,8 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: '0 1 * * *'   # 08:00 giờ VN, chạy full regression mỗi đêm
-  workflow_dispatch:       # cho phép bấm chạy tay trên tab Actions
+    - cron: '0 1 * * *' # 08:00 giờ VN, chạy full regression mỗi đêm
+  workflow_dispatch: # cho phép bấm chạy tay trên tab Actions
     inputs:
       tags:
         description: 'Tag cần chạy (vd: @smoke, @regression, để trống = tất cả)'
