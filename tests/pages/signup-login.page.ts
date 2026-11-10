@@ -5,6 +5,10 @@ export class SignupLoginPage {
   readonly signupName: Locator;
   readonly signupEmail: Locator;
   readonly signupButton: Locator;
+  readonly loginEmail: Locator;
+  readonly loginPassword: Locator;
+  readonly loginButton: Locator;
+  readonly loginError: Locator;
   readonly page: Page;
 
   constructor(trang: Page) {
@@ -14,6 +18,12 @@ export class SignupLoginPage {
     this.signupName = trang.getByTestId('signup-name');
     this.signupEmail = trang.getByTestId('signup-email');
     this.signupButton = trang.getByRole('button', { name: 'Signup' });
+    // Form Login: o nhap dung getByTestId (data-qa), nut Login dung getByRole (exact de khong khop nham)
+    this.loginEmail = trang.getByTestId('login-email');
+    this.loginPassword = trang.getByTestId('login-password');
+    this.loginButton = trang.getByRole('button', { name: 'Login', exact: true });
+    // Thong bao loi khong co role/label/test id -> getByText (text duy nhat tren trang)
+    this.loginError = trang.getByText('Your email or password is incorrect!');
   }
 
   async open() {
@@ -38,5 +48,14 @@ export class SignupLoginPage {
 
   async clickSignup() {
     await this.signupButton.click();
+  }
+
+  async fillLogin(email: string, password: string) {
+    await this.loginEmail.fill(email);
+    await this.loginPassword.fill(password);
+  }
+
+  async clickLogin() {
+    await this.loginButton.click();
   }
 }
