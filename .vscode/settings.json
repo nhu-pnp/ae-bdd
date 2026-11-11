@@ -1,3 +1,5 @@
 {
-  "nuxt.isNuxtApp": false
+  "nuxt.isNuxtApp": false,
+  "cucumber.features": ["tests/features/**/*.feature"],
+  "cucumber.glue": ["tests/steps/**/*.ts"]
 }

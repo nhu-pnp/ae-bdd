@@ -1,22 +1,12 @@
 import { expect, Page } from '@playwright/test';
-import { createUser, User } from '../data/user';
+import { createUser } from '../data/user';
 import { Header } from '../pages/components/header.components';
 import { AccountCreatedPage } from '../pages/account-created.page';
 import { AccountInformationPage } from '../pages/account-information.page';
 import { HomePage } from '../pages/home.page';
 import { SignupLoginPage } from '../pages/signup-login.page';
 import { Given, Then, When } from '../support/bdd';
-import { world } from '../support/world';
-
-// Lay user da tao o buoc signup; bao loi ro rang neu chua tao
-function currentUser(): User {
-  if (!world.user) {
-    throw new Error(
-      'Chua tao user - hay chay buoc "user enters a valid name and a new email" truoc',
-    );
-  }
-  return world.user;
-}
+import { currentUser, world } from '../support/world';
 
 // Tao user moi, cat vao world va dien form signup.
 // cleanup=true: account se duoc tao tren server -> dua vao danh sach xoa sau test
