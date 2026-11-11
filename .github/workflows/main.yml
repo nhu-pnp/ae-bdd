@@ -41,8 +41,20 @@ jobs:
       - name: Typecheck + format check
         run: npm run typecheck && npx prettier --check .
 
+      - name: Get Playwright version
+        id: pw
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}
+
+      # Không dùng --with-deps: ubuntu-latest đã có sẵn thư viện hệ thống cho Chromium,
+      # tránh phụ thuộc apt mirror (từng làm job fail do lỗi DNS azure.archive.ubuntu.com)
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
       - name: Run tests
         run: npm test
