@@ -7,6 +7,6 @@ Feature: Login with invalid credentials
     Given user is on the signup and login page
     When user enters an unregistered email and any password in the login form
     And user clicks the Login button
-    Then the login error "Yourr email or prassword is incorrect!" is displayed
+    Then the login error "Your email or password is incorrect!" is displayed
     And user stays on the signup and login page
     And user is not logged in
