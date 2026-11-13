@@ -12,7 +12,7 @@ on:
       tags:
         description: 'Tag cần chạy (vd: @smoke, @regression, để trống = tất cả)'
         required: false
-        default: '@smoke'
+        default: '@regression'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
