@@ -25,7 +25,7 @@ jobs:
     env:
       CI: true
       # PR/push: smoke; lịch đêm: regression; chạy tay: theo input
-      TAGS: ${{ github.event_name == 'schedule' && '@regression' || github.event.inputs.tags || '@smoke' }}
+      TAGS: ${{ github.event_name == 'schedule' && '@regression' || github.event.inputs.tags || '@regression' }}
 
     steps:
       - uses: actions/checkout@v4
