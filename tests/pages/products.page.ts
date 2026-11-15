@@ -5,6 +5,7 @@ export class ProductsPage {
   readonly searchInput: Locator;
   readonly searchButton: Locator;
   readonly productNames: Locator;
+  readonly productCard: Locator;
   readonly page: Page;
 
   constructor(page: Page) {
@@ -13,6 +14,7 @@ export class ProductsPage {
     this.searchInput = page.getByPlaceholder('Search Product');
     this.searchButton = page.locator('#submit_search');
     this.productNames = page.locator('.features_items .productinfo p');
+    this.productCard = page.locator('.features_items .product-image-wrapper');
   }
 
   async open() {
@@ -48,5 +50,10 @@ export class ProductsPage {
     for (const name of names) {
       expect(name.toLowerCase()).toContain(keyword.toLowerCase());
     }
+  }
+
+  async addToCart(index: number) {
+    const card = this.productCard.nth(index);
+    await card.locator('.productinfo').getByText('Add to cart').click();
   }
 }
