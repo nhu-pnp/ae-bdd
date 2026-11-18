@@ -40,4 +40,21 @@ export class CartPage {
       expect(total).toBe(price * expectedQty);
     }
   }
+
+  rowByProduct(productName: string): Locator {
+    return this.cartRows.filter({
+      has: this.page.getByRole('link', { name: productName, exact: true }),
+    });
+  }
+  async expectProductQuantity(productName: string, quantity: number) {
+    const row = this.rowByProduct(productName);
+    await expect(row).toHaveCount(1);
+    await expect(row.locator('.cart_quantity')).toHaveText(String(quantity));
+  }
+  async expectTotalIsQuantityTImesPrice(productName: string, quantity: number) {
+    const row = this.rowByProduct(productName);
+    const price = parsePrice(await row.locator('.cart_price').innerText());
+    const total = parsePrice(await row.locator('.cart_total').innerText());
+    expect(total).toBe(price * quantity);
+  }
 }

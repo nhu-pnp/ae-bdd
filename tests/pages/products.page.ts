@@ -56,4 +56,12 @@ export class ProductsPage {
     const card = this.productCard.nth(index);
     await card.locator('.productinfo').getByText('Add to cart').click();
   }
+
+  //testcase 188
+  async openProductDetail(productName: string) {
+    const card = this.productCard.filter({
+      has: this.page.getByText(productName, { exact: true }),
+    });
+    await card.getByRole('link', { name: 'View Product' }).click();
+  }
 }
